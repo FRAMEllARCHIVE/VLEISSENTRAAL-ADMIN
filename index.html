@@ -389,20 +389,23 @@ document.getElementById('submitButton').addEventListener('click', function(event
 
     const productTitle = document.getElementById('productTitle').value;
     const productDescription = document.getElementById('productDescription').value;
-    const startingPrice = document.getElementById('startingPrice').value;
+    let startingPrice = document.getElementById('startingPrice').value;
     const productVideoUrl = document.getElementById('productVideo').value;
 
     const specialCharRegex = /[!@#$%^&*()?":{}|<>]/g;
+    const numericPriceRegex = /[^0-9.]/g;
 
     function containsSpecialCharacters(str) {
         return specialCharRegex.test(str);
     }
 
     if (productTitle && productDescription && startingPrice && productVideoUrl) {
-        if (containsSpecialCharacters(productTitle) || containsSpecialCharacters(productDescription) || containsSpecialCharacters(startingPrice)) {
+        if (containsSpecialCharacters(productTitle) || containsSpecialCharacters(productDescription)) {
             alert('Special characters are not allowed.');
             return;
         }
+
+        startingPrice = startingPrice.replace(numericPriceRegex, ''); // Strip non-numeric characters
 
         try {
             new URL(productVideoUrl);
@@ -411,16 +414,16 @@ document.getElementById('submitButton').addEventListener('click', function(event
             return;
         }
 
-            const moo = atob(joojooo);
-            const currentTimestamp = getCurrentTimestamp().substring(0, 12);
-            const expiryTimestamp = addHoursToTimestamp(currentTimestamp, 48);
-            const encodedVideoUrl = encodeURIComponent(productVideoUrl);
-            const encodedVideoUrl2 = encodedVideoUrl.replace(/%/g, '[');
-            const newFileName = `@${encodedVideoUrl2}^${productDescription}!${expiryTimestamp}${productTitle}$${startingPrice}`;
+        const moo = atob(joojooo);
+        const currentTimestamp = getCurrentTimestamp().substring(0, 12);
+        const expiryTimestamp = addHoursToTimestamp(currentTimestamp, 48);
+        const encodedVideoUrl = encodeURIComponent(productVideoUrl);
+        const encodedVideoUrl2 = encodedVideoUrl.replace(/%/g, '[');
+        const newFileName = `@${encodedVideoUrl2}^${productDescription}!${expiryTimestamp}${productTitle}$${startingPrice}`;
 
-           console.log('Generated file name:', newFileName);
+        console.log('Generated file name:', newFileName);
 
-           showSpinner();
+        showSpinner();
 
         createFile(repo, newFileName, '', moo)
             .then(() => {
@@ -438,6 +441,7 @@ document.getElementById('submitButton').addEventListener('click', function(event
         alert('Please fill in all fields and provide a video URL.');
     }
 });
+
 
 function showSpinner() {
             document.getElementById('spinner').style.display = 'flex';
@@ -650,6 +654,7 @@ function refreshPrice(productID, moo, repo2, productCard) {
           if (detailsParts.length > 1) {
             highestBidder = detailsParts[1].split('[')[0].substring(14);
             contactDetails = detailsParts[1].split('[')[1].split(']')[0];
+            contactDetails = contactDetails.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
           }
           bidTime = file.name.split('@')[1].split('$')[0];
           if (bidTime.length === 14) {
