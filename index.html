@@ -62,38 +62,20 @@ body {
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
-.product-card .favorite {
-  position: absolute;
-  top: 0px;
-  right: 3px;
-  color: #f39c12;
-  cursor: pointer;
-      z-index: 1003;
-      opacity: 0.3;
-      transition: 0.3s ease;
-      padding: 10px;
-}
-
-.product-card .favorite:hover {
-      color: #e67e22;
-      transform: scale(1.1);
-      opacity: 1;
-}
-
 .product-card .refresh-icon {
   position: absolute;
   top: 0px;
-  left: 0px;
+  right: 0px;
   color: #2980b9;
   cursor: pointer;
   z-index: 1003;
-  opacity: 0.4;
+  opacity: 0.8;
   transition: 0.3s ease;
   padding: 15px;
 }
 
 .product-card .refresh-icon:hover {
-  opacity: 0.6;
+  opacity: 1;
   transform: scale(1.1);
 }
 
@@ -180,38 +162,6 @@ footer {
       z-index: 2000;
     }
 
-#AddProduct {
-      width: 88px;
-      height: 88px;
-      background-color: #1A2A5E;
-      border-radius: 18px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0 auto;
-      box-shadow: 0 3px 4px rgba(0, 0, 0, 0.4);
-      cursor: pointer;
-      font-size: 48px;
-      color: white;
-      font-weight: bold;
-      transition: 0.3s;
-      opacity: 0.9;
-    }
-
-    #AddProduct:hover {
-      background-color: #1A2A5E;
-      transform: scale(1.1);
-      opacity: 1;
-    }
-
-    #AddProduct i {
-      transition: transform 0.3s;
-    }
-
-    #AddProduct:hover i {
-      transform: scale(1.2);
-    }
-
 #productForm {
   letter-spacing: 0.5px;
   position: fixed;
@@ -268,36 +218,34 @@ footer {
       opacity: 1;
 }
 
-    #RefreshList {
-      width: 88px;
-      height: 88px;
-      background-color: transparent;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0 auto;
-      cursor: pointer;
-      font-size: 48px;
-      color: #1A2A5E;
-      font-weight: bold;
-      transition: 0.3s;
-      opacity: 0.9;
-    }
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 8dvw;
+}
 
-    #RefreshList:hover {
-      transform: scale(1.1);
-      opacity: 1;
-    }
+#RefreshList, #AddProduct {
+padding: 5px 22px; 
+  background-color: #1A2A5E;
+  border-radius: 33px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  font-size: 1.3rem;
+  color: white;
+  font-weight: bold;
+  transition: 0.3s;
+  opacity: 0.9;
+letter-spacing: 0.1rem;
+}
 
-    #RefreshList i {
-      transition: transform 0.3s;
-    }
-
-    #RefreshList:hover i {
-      animation: rotateIcon 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
-      transform: scale(1.2);
-    }
+#RefreshList:hover, #AddProduct:hover {
+  background-color: #1A2A5E;
+  transform: scale(1.1);
+  opacity: 1;
+}
 
 .spinner-container {
             position: fixed;
@@ -320,27 +268,25 @@ footer {
   </style>
 </head>
 <body>
+
   <img src="edgehill2.png" alt="Edgehill Greens Livestock Auction" class="banner">
 
-
   <main class="container" style="margin-top: 20px;">
-<br>
-  <div id="AddProduct" onclick="AddProduct()">
-    <i class="fas fa-plus"></i>
+  <div class="button-container">
+    <div id="AddProduct" onclick="AddProduct()">
+      ADD LOT
+    </div>
+    <div id="RefreshList" onclick="RefreshList()">
+      REFRESH
+    </div>
   </div>
-<br><br>
+<br>
     <div class="product-grid" id="productGrid">
-
     </div>
   </div>
-
-<br>
     </div>
-  </main>
-<br>
-  <div id="RefreshList" onclick="RefreshList()">
-                <i class="fas fa-sync-alt refresh-icon"></i>
-  </div>
+</main>
+
 <br><br>
 <footer>
    VLEISSENTRAAL © 2024. <br>
@@ -405,7 +351,7 @@ document.getElementById('submitButton').addEventListener('click', function(event
             return;
         }
 
-        startingPrice = startingPrice.replace(numericPriceRegex, ''); // Strip non-numeric characters
+        startingPrice = startingPrice.replace(numericPriceRegex, '');
 
         try {
             new URL(productVideoUrl);
@@ -492,9 +438,7 @@ function addHoursToTimestamp(timestamp, hoursToAdd) {
 }
 
 function RefreshList() {
-    setTimeout(() => {
         location.reload();
-    }, 2222);
 }
 
 function hideProductForm() {
@@ -552,21 +496,18 @@ document.addEventListener('DOMContentLoaded', () => {
           productCard.classList.add('product-card');
           
           productCard.innerHTML = `
-            <span class="favorite">
-            <i class="fa fa-star"></i>
-            </span>
             <i class="fas fa-sync-alt refresh-icon"></i>
-<div class="product-video-container">
-    <iframe class="product-video" src="${decodedVideoName3}" frameborder="0" allowfullscreen></iframe>
-</div>
-    <div class="product-info">
+            <div class="product-video-container">
+                <iframe class="product-video" src="${decodedVideoName3}" frameborder="0" allowfullscreen></iframe>
+            </div>
+                <div class="product-info">
             <h2 class="product-title">${productTitle}</h2>
             <p class="product-description">${productDescription}</p>
             <p class="product-price" data-current-price="${currentPrice}">Current Price: R${currentPrice}</p> 
             <p class="highest-bidder"></p>
             <p class="bidder-contact"></p>
             <p class="bid-time"></p>
-<br>
+            <br>
             </form>
               <p class="countdown"></p>
               <p class="product-id" style="display: none;">${productID}</p>
